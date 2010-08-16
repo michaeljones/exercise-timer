@@ -9,6 +9,15 @@ if [ $limit -gt ${#exercises} ]; then
 	exit
 fi
 
+espeak "Get ready"
+sleep 3
+espeak 3
+sleep 0.5
+espeak 2
+sleep 0.5
+espeak 1
+sleep 1.0
+
 for i in `seq 0 $limit`
 do
 	espeak "${exercises[ $i ]}" &
