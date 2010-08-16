@@ -1,0 +1,26 @@
+#!/bin/bash
+
+exercises=( [0]="Plank" [1]="Stepping" [2]="Side Stepping" [3]="Left Side Hold" [4]="Right Side Hold" )
+
+limit=`expr $1 - 1`
+
+if [ $limit -gt ${#exercises} ]; then
+	echo "Too long only ${#exercises} exercises"
+	exit
+fi
+
+for i in `seq 0 $limit`
+do
+	espeak "${exercises[ $i ]}" &
+
+	sleep 5
+	xkbbell &
+	sleep 2
+	xkbbell &
+	sleep 1
+	xkbbell &
+	sleep 1
+done
+
+espeak "Finished"
+
