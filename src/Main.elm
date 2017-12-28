@@ -36,8 +36,8 @@ type alias Period t =
 
 periodInit : Period String
 periodInit =
-    { minutes = ""
-    , seconds = ""
+    { minutes = "0"
+    , seconds = "0"
     }
 
 
@@ -239,17 +239,17 @@ view : Model -> Html Msg
 view model =
     case model.mode of
         CreateMode ->
-            div []
+            div [ id "container" ]
                 [ div []
-                    [ input [ type_ "number", onInput SetWorkMinutes ] []
-                    , input [ type_ "number", onInput SetWorkSeconds ] []
+                    [ input [ type_ "number", onInput SetWorkMinutes, value model.work.minutes ] []
+                    , input [ type_ "number", onInput SetWorkSeconds, value model.work.seconds ] []
                     ]
                 , div []
-                    [ input [ type_ "number", onInput SetRestMinutes ] []
-                    , input [ type_ "number", onInput SetRestSeconds ] []
+                    [ input [ type_ "number", onInput SetRestMinutes, value model.rest.minutes ] []
+                    , input [ type_ "number", onInput SetRestSeconds, value model.rest.seconds ] []
                     ]
                 , div []
-                    [ input [ type_ "number", onInput SetRounds ] []
+                    [ input [ type_ "number", onInput SetRounds, value model.rounds ] []
                     ]
                 , div []
                     [ button [ onClick StartRun ] [ text "Start" ]
@@ -257,10 +257,19 @@ view model =
                 ]
 
         RunMode block ->
-            div []
-                [ text (toString block.current)
-                , text ": "
-                , text (toString block.minutes)
-                , text ":"
-                , text (toString block.seconds)
+            let
+                className =
+                    case block.current of
+                        WorkSection ->
+                            "work"
+
+                        RestSection ->
+                            "rest"
+            in
+            div [ id "container", class className ]
+                [ div [ class "counter" ]
+                    [ text (String.padLeft 2 '0' <| toString block.minutes)
+                    , text ":"
+                    , text (String.padLeft 2 '0' <| toString block.seconds)
+                    ]
                 ]
